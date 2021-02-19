@@ -16,8 +16,8 @@ const Harvests = {
                     startDate: {
                         [Op.between]: [startDate, endDate]
                     },
-                    millId
-                }
+                    millId: millId,
+                },
             })
             .then((result) => {
                 res.json(result);
@@ -41,7 +41,11 @@ const Harvests = {
                 res.status(400).json({message: error.message})
             });
         }
-            Harvest.findAll()
+            Harvest.findAll({
+                where: {
+                    millId
+                }
+            })
             .then((result) => {
                 res.json(result);
             })
