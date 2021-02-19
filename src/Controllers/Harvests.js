@@ -8,8 +8,7 @@ const permit = new Bearer();
 
 const Harvests = {
     all(req, res, next) {
-        const {startDate, endDate, code} = req.body;
-        const millId = req.query.millId
+        const {startDate, endDate, code, millId} = req.query;
         
         if(startDate && endDate) {
             Harvest.findAll({
