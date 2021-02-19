@@ -9,13 +9,15 @@ const permit = new Bearer();
 const Harvests = {
     all(req, res, next) {
         const {startDate, endDate, code} = req.body;
+        const millId = req.query.millId
         
         if(startDate && endDate) {
             Harvest.findAll({
                 where: {
                     startDate: {
                         [Op.between]: [startDate, endDate]
-                    }
+                    },
+                    millId
                 }
             })
             .then((result) => {
@@ -50,7 +52,8 @@ const Harvests = {
     },
 
     create(req, res, next) {
-        const { code, startDate, endDate, millId } = req.body;
+        const { code, startDate, endDate } = req.body;
+        const millId = req.query.millId
         const token = permit.check(req)
         const user  = jwt.decode(token)
         

@@ -35,18 +35,17 @@ const Fields = {
     },
 
     create(req, res, next) {
-        const { code, latitude, longitude, farmId } = req.body;
+        const { code, coordenates, farmId } = req.body;
         const token = permit.check(req)
         const user  = jwt.decode(token)
         
-        if(!code || !latitude  || !longitude ){
+        if(!code || !coordenates ){
             res.status(400).json({message: "All inputs must be filled!"})
         }
 
         Field.create({
             code,
-            latitude,
-            longitude,
+            coordenates,
             farmId
         })
         .then((result) => {
