@@ -8,14 +8,15 @@ const permit = new Bearer();
 
 const Farms = {
     all(req, res, next) {
-        const {name, code, harvestId} = req.body;
+        const {name, code, harvestId} = req.query;
         
         if(name) {
             Farm.findAll({
                 where: {
+                    harvestId,
                     name: {
                         [Op.substring]: `${name}`
-                    }
+                    }                    
                 }
             })
             .then((result) => {
@@ -28,6 +29,7 @@ const Farms = {
         if(code) {
             Farm.findAll({
                 where: {
+                    harvestId,
                     code: {
                         [Op.substring]: `${code}`
                     }
@@ -40,7 +42,11 @@ const Farms = {
                 res.status(400).json({message: error.message})
             });
         }
-            Farm.findAll()
+            Farm.findAll({
+                where: {
+                    harvestId
+                }
+            })
             .then((result) => {
                 res.json(result);
             })

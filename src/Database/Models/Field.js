@@ -9,13 +9,8 @@ const Field = sequelize.define("field", {
         allowNull: false,
         unique: true
     },
-    latitude: {
-        type: DataTypes.FLOAT,
-        allowNull: false,
-    },
-    longitude: {
-        type: DataTypes.FLOAT,
-        allowNull: false
+    coordinates:{
+        type: DataTypes.ARRAY(DataTypes.ARRAY(DataTypes.FLOAT))
     }
 });
 
