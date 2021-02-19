@@ -8,11 +8,12 @@ const permit = new Bearer();
 
 const Fields = {
     all(req, res, next) {
-        const {code} = req.body;
+        const {code, farmId} = req.query;
         
         if(code) {
             Field.findAll({
                 where: {
+                    farmId,
                     code: {
                         [Op.substring]: `${code}`
                     }
@@ -25,7 +26,11 @@ const Fields = {
                 res.status(400).json({message: error.message})
             });
         }
-            Field.findAll()
+            Field.findAll({
+                where: {
+                    farmId
+                }
+            })
             .then((result) => {
                 res.json(result);
             })
@@ -34,18 +39,38 @@ const Fields = {
             });
     },
 
+    getField(req, res, next) {
+        const { fieldId, farmId } = req.query
+        if(!fieldId, !farmId) {
+            res.status(400).json({message: `All inputs must be filled`})
+        }
+
+        Field.findAll({
+            where: {
+                id: fieldId,
+                farmId
+            }
+        })
+        .then((result) => {
+            res.status(200).json(result[0])
+        })
+        .catch((error) => {
+            res.status(400).json({message: error.message})
+        });
+    },
+
     create(req, res, next) {
-        const { code, coordenates, farmId } = req.body;
+        const { code, coordinates, farmId } = req.body;
         const token = permit.check(req)
         const user  = jwt.decode(token)
         
-        if(!code || !coordenates ){
+        if(!code || !coordinates ){
             res.status(400).json({message: "All inputs must be filled!"})
         }
 
         Field.create({
             code,
-            coordenates,
+            coordinates,
             farmId
         })
         .then((result) => {

@@ -23,6 +23,7 @@ router.post("/farms", UserAuth.auth, FarmsController.create)
 router.delete("/farms", UserAuth.auth, FarmsController.delete)
 
 router.get("/fields", UserAuth.auth, FieldsController.all)
+router.get("/fieldMap", UserAuth.auth, FieldsController.getField)
 router.post("/fields", UserAuth.auth, FieldsController.create)
 router.delete("/fields", UserAuth.auth, FieldsController.delete)
 

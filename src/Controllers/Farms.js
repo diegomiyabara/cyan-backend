@@ -10,16 +10,13 @@ const Farms = {
     all(req, res, next) {
         const {name, code, harvestId} = req.query;
         
-        if(name || code) {
+        if(name) {
             Farm.findAll({
                 where: {
+                    harvestId,
                     name: {
                         [Op.substring]: `${name}`
-                    },
-                    code: {
-                        [Op.substring]: `${code}`
-                    },
-                    harvestId
+                    }                    
                 }
             })
             .then((result) => {
@@ -32,6 +29,7 @@ const Farms = {
         if(code) {
             Farm.findAll({
                 where: {
+                    harvestId,
                     code: {
                         [Op.substring]: `${code}`
                     }
