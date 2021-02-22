@@ -16,6 +16,9 @@ const Harvests = {
                     startDate: {
                         [Op.between]: [startDate, endDate]
                     },
+                    endDate: {
+                        [Op.between]: [startDate, endDate]
+                    },
                     millId: millId,
                 },
             })
@@ -62,6 +65,10 @@ const Harvests = {
         
         if(!code || !startDate  || !endDate || !millId){
             res.status(400).json({message: "All inputs must be filled!"})
+        }
+
+        if(endDate < startDate) {
+            res.status(400).json({message: "End date must be later then start date!"})
         }
 
         Harvest.create({
